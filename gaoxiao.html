@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>我的姐姐要天天开心</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: "Microsoft YaHei", sans-serif;
+            background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%);
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+        .container {
+            text-align: center;
+            color: white;
+            padding: 20px;
+        }
+        .blessing-link {
+            display: inline-block;
+            background: rgba(255,255,255,0.3);
+            color: #d23669;
+            padding: 20px 40px;
+            border-radius: 50px;
+            font-size: 20px;
+            font-weight: bold;
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255,255,255,0.5);
+            cursor: pointer;
+            transition: all 0.3s;
+            margin: 20px 0;
+            box-shadow: 0 8px 25px rgba(210,54,105,0.3);
+        }
+        .blessing-link:hover {
+            background: rgba(255,255,255,0.5);
+            transform: scale(1.05);
+        }
+        .popup {
+            position: fixed;
+            background: white;
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.3);
+            text-align: center;
+            min-width: 250px;
+            max-width: 280px;
+            z-index: 1000;
+            animation: float 3s ease-in-out infinite;
+            border: 3px solid;
+        }
+        .friend-name {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px dashed rgba(0,0,0,0.1);
+            color: #333;
+        }
+        .blessing-text {
+            font-size: 16px;
+            color: #555;
+            line-height: 1.5;
+            min-height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .popup .close {
+            position: absolute;
+            top: 8px;
+            right: 12px;
+            cursor: pointer;
+            font-size: 20px;
+            color: rgba(0,0,0,0.5);
+            background: rgba(255,255,255,0.8);
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        /* 粉色系弹窗样式 */
+        .popup-1 { border-color: #ff6b9d; background: linear-gradient(135deg, #ff6b9d, #ff8e53); }
+        .popup-2 { border-color: #e84393; background: linear-gradient(135deg, #e84393, #fd79a8); }
+        .popup-3 { border-color: #fab1a0; background: linear-gradient(135deg, #fab1a0, #ffeaa7); }
+        .popup-4 { border-color: #a29bfe; background: linear-gradient(135deg, #a29bfe, #74b9ff); }
+        .popup-5 { border-color: #fd79a8; background: linear-gradient(135deg, #fd79a8, #fdcb6e); }
+        .popup-6 { border-color: #ff7675; background: linear-gradient(135deg, #ff7675, #fdcb6e); }
+
+        .popup-1 .friend-name, .popup-1 .blessing-text,
+        .popup-2 .friend-name, .popup-2 .blessing-text,
+        .popup-4 .friend-name, .popup-4 .blessing-text,
+        .popup-5 .friend-name, .popup-5 .blessing-text,
+        .popup-6 .friend-name, .popup-6 .blessing-text { color: white; }
+
+        .popup-3 .friend-name, .popup-3 .blessing-text { color: #333; }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-8px) rotate(1deg); }
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.7) rotate(-5deg); }
+            to { opacity: 1; transform: scale(1) rotate(0deg); }
+        }
+        .firework {
+            position: fixed;
+            width: 4px;
+            height: 4px;
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 999;
+        }
+        .special-name {
+            color: #ff6b9d;
+            text-shadow: 0 0 15px rgba(255,107,157,0.5);
+            font-size: 26px;
+            margin: 15px 0;
+            font-weight: bold;
+        }
+        .hearts {
+            font-size: 30px;
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="hearts">💖💖💖</div>
+        <h1 style="margin-bottom: 10px; font-size: 28px;">✨ 专属祝福 ✨</h1>
+        <div class="special-name">给 项佳怡 的特别祝福</div>
+
+        <div class="blessing-link" onclick="showMultiplePopups()">
+            🌸 点击接收祝福 🌸
+        </div>
+
+        <p style="margin-top: 20px; opacity: 0.8; font-size: 14px;">
+            点击按钮，为 项佳怡 送上多重祝福
+        </p>
+        <div class="hearts">💖💖💖</div>
+    </div>
+
+    <script>
+        const blessings = [
+            "祝你天天开心！🌸", "万事如意！✨", "身体健康！💝", "学习进步！📚",
+            "心想事成！🌟", "笑口常开！😊", "考研顺利💕", "平安喜乐！🍀",
+            "青春美丽！🌹", "好运连连！🎀", "友谊长存！🤝", "梦想成真！🌈",
+            "前程似锦！🎓", "上岸！🏠", "爱情甜蜜！💑", "学业有成！🚀",
+            "考神附体！💰", "快乐无限！🎊"
+        ];
+        const friendName = "项佳怡";
+        let popupCount = 0;
+        const maxPopups = 8;
+
+        function getRandomBlessing() {
+            return blessings[Math.floor(Math.random() * blessings.length)];
+        }
+
+        function getRandomPosition() {
+            const margin = 100;
+            const x = margin + Math.random() * (window.innerWidth - 2 * margin);
+            const y = margin + Math.random() * (window.innerHeight - 2 * margin);
+            return { x, y };
+        }
+
+        function getRandomPopupClass() {
+            const classes = ['popup-1', 'popup-2', 'popup-3', 'popup-4', 'popup-5', 'popup-6'];
+            return classes[Math.floor(Math.random() * classes.length)];
+        }
+
+        function createFirework(x, y) {
+            const firework = document.createElement('div');
+            firework.className = 'firework';
+            firework.style.left = x + 'px';
+            firework.style.top = y + 'px';
+            firework.style.background = getRandomColor();
+            document.body.appendChild(firework);
+
+            firework.animate([
+                { transform: 'scale(1)', opacity: 1 },
+                { transform: 'scale(3)', opacity: 0 }
+            ], {
+                duration: 1000,
+                easing: 'ease-out'
+            });
+
+            setTimeout(() => firework.remove(), 1000);
+        }
+
+        function getRandomColor() {
+            const colors = ['#ff6b9d', '#e84393', '#fab1a0', '#a29bfe', '#fd79a8', '#ff7675'];
+            return colors[Math.floor(Math.random() * colors.length)];
+        }
+
+        function createBlessingPopup() {
+            if (popupCount >= maxPopups) return;
+
+            const blessing = getRandomBlessing();
+            const position = getRandomPosition();
+            const popupClass = getRandomPopupClass();
+
+            const popup = document.createElement('div');
+            popup.className = `popup ${popupClass}`;
+            popup.style.left = position.x + 'px';
+            popup.style.top = position.y + 'px';
+            popup.style.animation = 'fadeIn 0.5s ease-out';
+
+            popup.innerHTML = `
+                <div class="close" onclick="this.parentElement.remove(); popupCount--;">×</div>
+                <div class="friend-name">💖 ${friendName} 💖</div>
+                <div class="blessing-text">${blessing}</div>
+            `;
+
+            document.body.appendChild(popup);
+            popupCount++;
+
+            createFirework(position.x, position.y);
+
+            setTimeout(() => {
+                if (popup.parentElement) {
+                    popup.remove();
+                    popupCount--;
+                }
+            }, 8000);
+        }
+
+        function showMultiplePopups() {
+            document.querySelectorAll('.popup').forEach(popup => popup.remove());
+            popupCount = 0;
+
+            for (let i = 0; i < 6; i++) {
+                setTimeout(() => {
+                    createBlessingPopup();
+                }, i * 300);
+            }
+        }
+    </script>
+</body>
+</html>
